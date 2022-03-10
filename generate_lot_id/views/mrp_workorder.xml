@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_production_workcenter_form_view_inherit_multi_lot1" model="ir.ui.view">
+        <field name="name">Add multiple lot codes to Workorder</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+        <field name="arch" type="xml">
+            <field name="qty_producing" position="before">
+            	<field name="raw_product_ids" invisible="1"/>
+            </field>
+
+            <field name="finished_lot_id" position="replace"/>
+            <field name="qty_producing" position="replace"/>
+
+            <page name="time_tracking" position="before">
+	            <page string="Current Production">
+	            <group>
+                        <group>
+                            <field name="qty_producing" string="Current Qty" attrs="{'readonly': ['|', ('product_tracking', '=', 'serial'), ('state', 'in', ('done', 'cancel'))]}"/>
+                            <field name="finished_lot_id" context="{'default_product_id': product_id}" attrs="{'invisible': [('product_tracking', '=', 'none')]}" groups="stock.group_production_lot"/>
+                        </group>
+                    </group>
+
+	            </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>
